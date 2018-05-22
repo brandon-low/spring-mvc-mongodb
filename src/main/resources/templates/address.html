@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="container" style="min-height: 300px">
+
+    <div class="starter-template">
+        <h1>Spring Boot AJAX Example</h1>
+
+	         
+         <form class="row form-horizontal" id="address-from" name="address-form">
+   	 		<input id="selectedIndexField" 	name="selectedIndexField" 	type="hidden" value=""/>
+        	<input id="oldNameField" 		name="oldNameField" 		type="hidden" value=""/>
+        	
+        	<div id="nameDiv" class="form-group form-group-lg">
+                <label class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-6">
+            		<input id="nameField" name="nameField" type="text" value="" class="form-control"/>
+            		<span id="nameSpan" class=""></span>
+	        	</div>
+	        	<div id="nameError" class="col-sm-4 alert alert-danger">
+	        		<!-- <div id="nameErrorInner" class="alert alert-danger" role="alert"></div>-->
+	        	</div>
+	        </div>
+	        
+	        <div id="addressDiv" class="form-group form-group-lg">
+                <label class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-6">
+	           		<input id="addressField" name="addressField" type="text" value="" class="form-control"/>
+	           		<span id="addressSpan" class=""></span>
+	         	</div> 
+	         	<div id="addressError" class="col-sm-4 alert alert-danger">
+	        		<!-- <div id="addressErrorInner" class="alert alert-danger" role="alert"></div>-->
+	        	</div> 
+	        </div>
+	        
+	        <div id="phoneDiv" class="form-group form-group-lg">
+                <label class="col-sm-2 control-label">Phone</label>
+                <div class="col-sm-6">
+	            	<input id="phoneField" name="phoneField" type="text" value="" class="form-control"/>
+	            	<span id="phoneSpan" class=""></span>
+	        	</div>
+	        	<div id="phoneError" class="col-sm-4 alert alert-danger">
+	        		<!-- <div id="phoneErrorInner" class="alert alert-danger" role="alert"></div> -->
+	        	</div>
+	        </div>
+	        
+	       <div id="emailDiv" class="form-group form-group-lg">
+                <label class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-6">
+                	<input id="emailField" name="emailField" type="text" value="" class="form-control"/>
+                	<span id="emailSpan" class=""></span>
+	        	</div>
+	        	<div id="emailError" class="col-sm-4 alert alert-danger">
+	        		<!-- <div id="emailErrorInner" class="alert alert-danger" role="alert"></div> -->
+	        	</div>
+	        </div>
+	         <div class="form-group form-group-lg">
+	          	<label class="col-sm-2 control-label" for="addressList" >Address List</label>
+	          	<div class="col-sm-6">
+           			<select class="selectpicker form-control" data-size="10" id="addressList" name="addressList">
+           			</select>
+           		</div>
+           		<div class="col-sm-4"></div>
+           	</div>
+                       
+            <div class="form-group form-group-lg">
+                <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="bth-save"
+                            class="btn btn-primary btn-lg" >Save
+                    </button>
+	            	
+                 <button type="submit" id="bth-delete"
+                            class="btn btn-primary btn-lg" >Delete
+                    </button>
+                	<button type="submit" id="bth-search" class="btn btn-primary btn-lg">Search</button>
+                	
+	        	</div>  
+	        	
+	        </div>
+	         
+ 
+        </form>
+
+    </div>
+    
+   
+    
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+<script type="text/javascript">
+
+function resetGroup(divId, spanId, errorId, errorInnerId){
+	document.getElementById(divId).className = "form-group form-group-lg";
+	document.getElementById(spanId).className = "";
+	// document.getElementById(errorInnerId).innerHTML = "";
+	document.getElementById(errorId).innerHTML = "";
+	document.getElementById(errorId).style.visibility = "hidden";
+}
+
+function setSuccess(divId, spanId, errorId, errorInnerId) {
+	document.getElementById(divId).className = "form-group form-group-lg has-success has-feedback";
+	document.getElementById(spanId).className = "glyphicon glyphicon-ok form-control-feedback";
+}
+
+function setWarning(divId, spanId,  errorId, errorInnerId, msg) {
+	document.getElementById(divId).className = "form-group form-group-lg has-warning has-feedback";
+	document.getElementById(spanId).className = "glyphicon glyphicon-warning-sign form-control-feedback";
+	//document.getElementById(errorInnerId).innerHTML = msg;
+	document.getElementById(errorId).innerHTML = msg;
+	document.getElementById(errorId).style.visibility = "visible";
+}
+
+function setError(divId, spanId,  errorId, errorInnerId, msg) {
+	document.getElementById(divId).className = "form-group form-group-lg has-error has-feedback";
+	document.getElementById(spanId).className = "glyphicon glyphicon-remove form-control-feedback";
+	//document.getElementById(errorInnerId).innerHTML = msg;
+	document.getElementById(errorId).innerHTML = msg;
+	document.getElementById(errorId).style.visibility = "visible";
+}
+
+function hideAllError() {
+
+	resetGroup("nameDiv","nameSpan", "nameError", "nameErrorInner");
+	resetGroup("addressDiv","addressSpan", "addressError", "addressErrorInner");
+	resetGroup("phoneDiv","phoneSpan", "phoneError", "phoneErrorInner");
+	resetGroup("emailDiv","emailSpan", "emailError", "emailErrorInner");
+	
+	//document.getElementById("nameError").innerHTML = '';
+	//document.getElementById("addressError").innerHTML = '';
+	//document.getElementById("phoneError").innerHTML = '';
+	//document.getElementById("emailError").innerHTML = '';
+	//document.getElementById("nameError").style.visibility = "hidden";
+	//document.getElementById("addressError").style.visibility = "hidden";
+	//document.getElementById("phoneError").style.visibility = "hidden";
+	//document.getElementById("emailError").style.visibility = "hidden";
+	
+}
+
+function get_addresses() {
+	console.log("Get Addresses");
+	$.getJSON("address/addresses/", function(data, status){
+		console.log("IN Get JSON status:" + status);
+	  	console.log(data);
+	  	display_data(data);
+	});
+      
+}
+
+function display_data(data){
+	var entries = [];
+	 entries.push('<option value="">Empty For Insert</option>');
+	 $.each(data, function(index, d){            
+      	console.log(d._id + " " + d.name);
+      	entries.push('<option name="'+ d._id+ '" value="'+ d._id+ '">'+ JSON.stringify(d)+ '</option>');
+     });
+
+     console.log("entry="+ entries);
+     $("#addressList").empty();
+     console.log("empty out address display list about to load it");
+     $(entries.join('')).appendTo('#addressList'); 
+}
+
+function getAddressById(id){
+	hideAllError();
+    if(id){
+         $.ajax({
+             url: "address/get/"+id,
+             type:"get",
+             success: function(data) { 
+                 		populate_fields(data); 
+                 	}
+         });
+    } else {
+        populate_fields( empty_user() );
+        
+    }
+}
+
+function delete_address() {
+	  var address = make_address();
+      var id = address._id;
+
+      console.log("Delete Address:" + address);
+      hideAllError();
+      
+      if (id){
+           $.ajax({
+               url: "address/delete/"+ id,
+               type:"delete",
+               success: function() { 
+            	   get_addresses();
+                   populate_fields( empty_user() );
+                   }
+           });
+      } else {
+    	  populate_fields( empty_user() );
+      }
+	    
+}
+
+function save_address() {
+	var address = make_address();
+
+    console.log("Save Address:" + address);
+
+	var id = address._id;
+	if (id){
+		save_update("address/update/", "put", address) 
+	} else {
+		save_update("address/create/", "post", address);
+	}
+}
+
+function save_update(urlAddress, ajaxType, address) {
+	console.log( urlAddress + JSON.stringify(address));
+	 $.ajax({
+           url:		urlAddress,
+           type:	ajaxType,
+           contentType:"application/json",
+           processData: false,
+           data: JSON.stringify(address),
+           success: function(res) {
+               			console.log("Update Successful . Go Populate Page"); 
+               		 	if(res.validated){
+               				get_addresses();
+
+               				hideAllError();    				
+               		 	} else {
+                   		 		
+                   		 	hideAllError();
+                            $.each(res.errorMessages,function(key,value){
+                  	            //$('input[name='+key+'Field]').after('<span class="error">'+value+'</span>');
+                  	            
+								setError(key+"Div", key+"Span", key+"Error", key+"ErrorInner", value);
+                  	            console.log("[" + key + "][" + value +"]");
+                             });
+
+                            
+                                                        
+                   		} 
+               		},
+           error: function (xhr, ajaxOptions, thrownError) {
+        	   console.log("Update Error status:" + xhr.status); 
+				if (thrownError)
+        	   		console.log("Update Error Exception:" + thrownError); 
+               
+           }
+       });
+}
+
+
+
+function search_address() {
+	  console.log("Search Addresses");
+}
+
+function make_address(){
+    var addressObject = {
+    	_id: 		$("#selectedIndexField").prop('value'),
+    	name: 		$("#nameField").prop('value'),
+        address: 	$("#addressField").prop('value'),
+        phone: 		$("#phoneField").prop('value'),
+        email: 		$("#emailField").prop('value')   
+    	};
+    console.log("make_address:" + addressObject);
+    return addressObject;
+ }
+
+function empty_user() {
+	var emptyUser= {
+		_id:		"",
+	    name: 		"",
+	    address: 	"",
+	    phone: 		"",
+	    email: 		""
+	};
+	return emptyUser;
+}
+
+function populate_fields(jsonData){
+	console.log("populate_fields id=" + jsonData._id + 
+			 " name=" + jsonData.name + 
+			" address=" + jsonData.address);
+
+	$("#selectedIndexField").val(jsonData._id || "");
+    $("#nameField").prop("value", jsonData.name);
+    $("#addressField").prop("value", jsonData.address);
+    $("#phoneField").prop("value", jsonData.phone);
+    $("#emailField").prop("value", jsonData.email);
+    
+}
+
+$(document).ready(function () {
+// jQuery(document).ready(function($) {
+		
+	// set no cache
+    $.ajaxSetup({ cache: false });
+
+    // you need the following line to do the job
+    $("#address-from").submit(function(event) {
+
+    	console.log("Prevent From Via Browser");
+    	
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		
+	});
+
+    console.log("Get Addresses");
+    hideAllError();
+
+	// get all the addresses and populate drop box
+	get_addresses();
+	console.log("Done Addresses");		
+
+	// click on option on address drop list
+	$("#addressList").on('click','option', function(){ 
+			getAddressById(this.value); 
+			});
+
+	// anothe way of doing it
+	$('#bth-save').click(function () 	{ save_address();  });
+	$('#bth-delete').click(function () 	{ delete_address(); });
+
+	console.log("Done Set Up Controls");
+	  
+});
+
+
+</script>
+
+</body>
+</html>

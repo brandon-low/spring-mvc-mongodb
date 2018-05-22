@@ -1,0 +1,81 @@
+
+TODO
+1. Bean Validation
+2. Error message from validation
+
+
+DONE:
+1. bean persistence to mongodb
+2. spring security
+3. ajax insert, update, delete, getbyId,
+
+
+Spring Boot To War
+ Step 1:   modify this class or Application.java in this case
+					import org.springframework.boot.SpringApplication;
+					import org.springframework.boot.autoconfigure.SpringBootApplication;
+					import org.springframework.boot.builder.SpringApplicationBuilder;
+					import org.springframework.boot.web.support.SpringBootServletInitializer;
+					
+					@SpringBootApplication
+					public class SpringBootWebApplication extends SpringBootServletInitializer {
+					
+					    @Override
+					    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+					        return application.sources(SpringBootWebApplication.class);
+					    }
+					
+					    public static void main(String[] args) throws Exception {
+					        SpringApplication.run(SpringBootWebApplication.class, args);
+					    }
+					
+					}
+					
+					/*@SpringBootApplication
+					public class SpringBootWebApplication {
+					
+					    public static void main(String[] args) throws Exception {
+					        SpringApplication.run(SpringBootWebApplication.class, args);
+					    }
+					
+					}*/
+					
+
+If you create a extra SpringBootWebApplication class for deployment, make sure tell Spring Boot which main class to start :
+
+pom.xml
+  <properties>
+        <start-class>com.mkyong.NewSpringBootWebApplicationForWAR</start-class>
+  </properties>
+Copy
+Read this – Spring Boot – Which main class to start
+
+
+
+STEP 2: marked the embedded servlet container as provided in pom.xml
+pom.xml
+<dependencies>
+
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+
+	<!-- marked the embedded servlet container as provided -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-tomcat</artifactId>
+		<scope>provided</scope>
+	</dependency>
+
+</dependencies>
+
+
+3. Update packaging to war
+pom.xml
+  <packaging>war</packaging>
+Copy
+Done, mvn package and copy the $project/target/xxx.war to Tomcat for deployment.
+
+
+
