@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 
 //import javax.persistence.Column;
@@ -17,7 +16,6 @@ import org.springframework.data.annotation.Id;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 /*
  * import javax.validation.constraints.AssertTrue;
@@ -66,6 +64,9 @@ public class User {
 	private int attempts;
 	private Date lastModified;
 	
+	
+	private Date createTimestamp;
+	private Date updateTimestamp;
 	
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
@@ -164,6 +165,7 @@ public class User {
 	public void setAttempts(int attempts) {
 		this.attempts = attempts;
 	}
+	
 
 	public Date getLastModified() {
 		return lastModified;
@@ -173,14 +175,34 @@ public class User {
 		this.lastModified = lastModified;
 	}
 
+
+	public Date getCreateTimestamp() {
+		return createTimestamp;
+	}
+
+	public void setCreateTimestamp(Date createTimestamp) {
+		this.createTimestamp = createTimestamp;
+	}
+
+	public Date getUpdateTimestamp() {
+		return updateTimestamp;
+	}
+
+	public void setUpdateTimestamp(Date updateTimestamp) {
+		this.updateTimestamp = updateTimestamp;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
 				+ ", accountNonExpired=" + accountNonExpired + ", credentialsNonExpired=" + credentialsNonExpired
 				+ ", accountNonLocked=" + accountNonLocked + ", attempts=" + attempts + ", lastModified=" + lastModified
-				+ ", userRole=" + userRole + "]";
+				+ ", createTimestamp=" + createTimestamp + ", updateTimestamp=" + updateTimestamp + ", userRole="
+				+ userRole + "]";
 	}
 
+	
+	
 	
 	
 

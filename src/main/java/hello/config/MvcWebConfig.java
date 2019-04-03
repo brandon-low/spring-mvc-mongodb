@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
+
 //works with just @Configuration
 @Configuration
 //@EnableWebMvc
@@ -34,34 +36,7 @@ import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 public class MvcWebConfig implements WebMvcConfigurer {
 
 	private static final Logger logger = LoggerFactory.getLogger(MvcWebConfig.class);
-	/*
-   @Bean("messageSource")
-   public MessageSource messageSource() {
-      ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
-      messageSource.setBasename("classpath:locale/messages");
-      messageSource.setDefaultEncoding("UTF-8");
-      messageSource.setUseCodeAsDefaultMessage(true);
-      return messageSource;
-   }
 
-   
-   @Bean(name = "validator")
-   public LocalValidatorFactoryBean validator()
-   {
-       LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-       bean.setValidationMessageSource(messageSource());
-       return bean;
-   }
-   
-   @Bean
-   public LocaleResolver localeResolver() {
-      //CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-      SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-      localeResolver.setDefaultLocale(Locale.US);
-      return localeResolver;
-   }
-   */
-   
   
    @Override
    public void addInterceptors(InterceptorRegistry registry) {
@@ -75,5 +50,33 @@ public class MvcWebConfig implements WebMvcConfigurer {
       localeChangeInterceptor.setParamName("lang");
       registry.addInterceptor(localeChangeInterceptor);
    }
+   
+   @Override
+   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+       registry.addResourceHandler(
+              "/webjars/**",
+    		   "/resources/**",
+               "/img/**",
+               "/css/**",
+               "/js/**")
+               .addResourceLocations(
+                      "classpath:/META-INF/resources/webjars/",
+            		   "classpath:/resources/",
+                       "classpath:/static/img/",
+                       "classpath:/static/css/",
+                       "classpath:/static/js/");
+   }
+   
+   // added these
+   
+   /*
+   @Override
+   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+   registry.addResourceHandler("/resources/**")
+       .addResourceLocations("/resources/");
+   registry.addResourceHandler("/**")
+   .addResourceLocations("/resources/js/sw.js");
+   }
+   */
 
 }

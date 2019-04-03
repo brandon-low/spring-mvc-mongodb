@@ -11,7 +11,7 @@
 <div class="container" style="min-height: 300px">
 
     <div class="starter-template">
-        <h1>Spring Boot AJAX Example</h1>
+        <h1>Spring Boot AJAX Example Address Page</h1>
 
 	         
          <form class="row form-horizontal" id="address-from" name="address-form">
@@ -265,11 +265,11 @@ function search_address() {
 
 function make_address(){
     var addressObject = {
-    	_id: 		$("#selectedIndexField").prop('value'),
-    	name: 		$("#nameField").prop('value'),
-        address: 	$("#addressField").prop('value'),
-        phone: 		$("#phoneField").prop('value'),
-        email: 		$("#emailField").prop('value')   
+    	_id: 		$("#selectedIndexField").prop("value"),
+    	name: 		$("#nameField").prop("value"),
+        address: 	$("#addressField").prop("value"),
+        phone: 		$("#phoneField").prop("value"),
+        email: 		$("#emailField").prop("value")   
     	};
     console.log("make_address:" + addressObject);
     return addressObject;
@@ -323,13 +323,15 @@ $(document).ready(function () {
 	console.log("Done Addresses");		
 
 	// click on option on address drop list
-	$("#addressList").on('click','option', function(){ 
+	// not working on chrome
+	//$("#addressList").on("click","option", function(){ 
+	$("#addressList").change( function(){   // try change
 			getAddressById(this.value); 
 			});
 
 	// anothe way of doing it
-	$('#bth-save').click(function () 	{ save_address();  });
-	$('#bth-delete').click(function () 	{ delete_address(); });
+	$("#bth-save").click(function () 	{ save_address();  });
+	$("#bth-delete").click(function () 	{ delete_address(); });
 
 	console.log("Done Set Up Controls");
 	  

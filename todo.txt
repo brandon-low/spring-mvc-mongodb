@@ -1,4 +1,13 @@
 
+Run instruction:
+1: start mongodb by mongod as su
+  use robo 3t
+2 :to run as application 
+3: browser URL  is http://localhost:8080/
+
+
+
+
 TODO- alteres
 1. Bean Validation
 2. Error message from validation
@@ -41,7 +50,8 @@ Spring Boot To War
 					}*/
 					
 
-If you create a extra SpringBootWebApplication class for deployment, make sure tell Spring Boot which main class to start :
+If you create a extra SpringBootWebApplication class for deployment, 
+make sure tell Spring Boot which main class to start :
 
 pom.xml
   <properties>

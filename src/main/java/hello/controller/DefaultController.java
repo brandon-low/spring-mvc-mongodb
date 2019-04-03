@@ -26,33 +26,62 @@ public class DefaultController {
 	
 	 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	    public String homePage(ModelMap model) {
+	 		if (logger.isDebugEnabled()) {
+	    		logger.debug("Home Page");
+	    	}
+	 		
 	        model.addAttribute("user", getPrincipal());
 	        return "/home";
 	    }
 	 
 	    @RequestMapping(value = "/admin", method = RequestMethod.GET)
 	    public String adminPage(ModelMap model) {
+	    	if (logger.isDebugEnabled()) {
+	    		logger.debug("Admin Page");
+	    	}
+	    	
 	        model.addAttribute("user", getPrincipal());
-	        return "/admin";
+	        return "/test_admin";
 	    }
 	     
 	    @RequestMapping(value = "/user", method = RequestMethod.GET)
 	    public String userPage(ModelMap model) {
+	    	
+	    	if (logger.isDebugEnabled()) {
+	    		logger.debug("User Page");
+	    	}
+	    	
 	        model.addAttribute("user", getPrincipal());
-	        return "/user";
+	        return "/test_user";
 	    }
 	    
 	    @RequestMapping(value = "/about", method = RequestMethod.GET)
 	    public String aboutPage(ModelMap model) {
+	    	
+	    	if (logger.isDebugEnabled()) {
+	    		logger.debug("About Page");
+	    	}
+	    	
 	        model.addAttribute("user", getPrincipal());
-	        return "/about";
+	        return "/test_about";
+	    }
+	    
+	    @GetMapping("/international")
+	    public String getInternationalPage() {
+	        return "test_international";
 	    }
 	 
 	    @RequestMapping(value = {"/Access_Denied", "/403"}, method = RequestMethod.GET)
 	    public String accessDeniedPage(ModelMap model) {
+	    	if (logger.isDebugEnabled()) {
+	    		logger.debug("Access Denied Page");
+	    	}
+	    	
 	        model.addAttribute("user", getPrincipal());
 	        return "/error/403";
 	    }
+	    
+	    
 	    
 	  //customize the error message
 		private String getErrorMessage(HttpServletRequest request, String key){
@@ -115,42 +144,5 @@ public class DefaultController {
 	        return userName;
 	    }
 	    
-	    /*
-
-    @GetMapping("/")
-    public String home1() {
-        return "/home";
-    }
-
-    @GetMapping("/home")
-    public String home() {
-        return "/home";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "/admin";
-    }
-
-    @GetMapping("/user")
-    public String user() {
-        return "/user";
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "/about";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "/login";
-    }
-
-    @GetMapping("/403")
-    public String error403() {
-        return "/error/403";
-    }
-    */
-
+	 
 }

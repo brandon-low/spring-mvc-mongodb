@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import hello.entity.Address;
+import hello.entity.Page;
 import hello.service.AddressService;
 import hello.service.ErrorMessageService;
 
@@ -50,9 +51,9 @@ public class AddressController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String defaultPage(Locale locale, Model model) {
     	 this.locale = locale;
-    	log.debug("Granny Home Page : redirect to Address Locale:" + locale.toString());
+    	log.debug("Address Home Page : redirect to Address Locale:" + locale.toString());
        
-        return "address";
+        return "test_address";
     }
 
 	
@@ -124,6 +125,16 @@ public class AddressController {
         log.debug("in get all addresses method list l=" + addresses.size());
 
         return addresses;
+    }
+    
+
+    @RequestMapping(value = "/search/", method = RequestMethod.PUT, consumes = "application/json")
+    public @ResponseBody Page search(@Valid @RequestBody  Address address, BindingResult result) {
+    	Page page = new Page();
+    	page.setForm(address);
+    	
+    	
+    	return page;
     }
 
 }

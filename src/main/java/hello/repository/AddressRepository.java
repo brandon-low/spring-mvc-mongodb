@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import hello.entity.Address;
 
 @Repository
-public interface AddressRepository extends MongoRepository<Address, Long> {
+public interface AddressRepository extends MongoRepository<Address, Long>, AddressRepositoryCustom {
 
 	List<Address> findAll();
 

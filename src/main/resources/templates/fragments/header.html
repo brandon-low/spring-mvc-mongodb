@@ -2,19 +2,36 @@
 <head>
 		
     <div th:fragment="header-css">
+    
+    	<!--  added these -->
+    	<!-- 
+    	<meta charset="utf-8"/>
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1"/>	
+    	-->
         <!-- this is header-css -->
         
-        <script type="text/javascript" 
-			src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
-		<script type="text/javascript" 
-			src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- modified -->
+        <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    	<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+					
+		<!-- modified -->
 		
-        <link rel="stylesheet" type="text/css"
+		<link rel="stylesheet" type="text/css" 
+					th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+					href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    	<link rel="stylesheet"  
+    				th:href="@{/css/main.css}"  href="../../css/main.css"/>
+        
+       <!-- original  -->
+		<!-- 
+		  <link rel="stylesheet" type="text/css"
               href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
 
         <link rel="stylesheet" th:href="@{/css/main.css}"
               href="../../css/main.css" />
+               -->
+
     </div>
 </head>
 <body>

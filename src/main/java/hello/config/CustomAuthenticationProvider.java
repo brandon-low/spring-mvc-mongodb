@@ -39,6 +39,7 @@ public class CustomAuthenticationProvider  implements AuthenticationProvider {
 	
 	 private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 	 
+	 
 	@Autowired
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
@@ -74,6 +75,8 @@ public class CustomAuthenticationProvider  implements AuthenticationProvider {
 		logger.info("UserRoles:" + userRoles + " has roles:" + Result);
 		return Result;
 	}
+	
+	
  
     @Override
     public Authentication authenticate(Authentication authentication) 
@@ -86,6 +89,7 @@ public class CustomAuthenticationProvider  implements AuthenticationProvider {
     		logger.debug("Found User for authen:" + name + " User:" + user);
     		
     		if (user == null ) {
+    		
     			throw new UsernameNotFoundException("User :" + name + "not found");
     		} 
     		// account is locked

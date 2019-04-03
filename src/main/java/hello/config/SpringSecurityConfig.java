@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -14,6 +15,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import hello.service.UserService;
 
 @Configuration
+
 // http://docs.spring.io/spring-boot/docs/current/reference/html/howto-security.html
 // Switch off the Spring Boot security configuration
 //@EnableWebSecurity
@@ -62,39 +64,51 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     	logger.debug("*********** Config Security ************");
         http.csrf().disable()
                 .authorizeRequests()
-	                .antMatchers("/", "/home", "/about").permitAll()
-	                .antMatchers("/address/**", "/createuser", "/webjars/bootstrap/**").permitAll()
+	                .antMatchers("/", "/home", "/about", "/login", "/logout",
+	                			"/address/**",
+	                			"/setup/**",	// set up of site
+	                			"/proto/**",		// prototype directory
+	                			"/international/**",
+	                			 "/js/**", "/css/**", "/img/**",
+	                			"/webjars/**","/resources/**"
+	                				).permitAll()
 	                .antMatchers("/admin/**").hasAnyRole("ADMIN")
 	                .antMatchers("/user/**").hasAnyRole("USER")
 	                .anyRequest().authenticated()
-	                .and()
+	             
+	             .and()
 		                .formLogin()
 		                .loginPage("/login")
+		                .loginProcessingUrl("/login") // added this
 		                .failureUrl("/login?error")
-		              	.defaultSuccessUrl("/", true)
+		              	.defaultSuccessUrl("/", true)  
 				 		.usernameParameter("username")
 				 		.passwordParameter("password")
-		                .permitAll()
+				 		.permitAll()
 		            //.and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
 		            //    .usernameParameter("username").passwordParameter("password")
 	                .and()
 		                .logout()
+		                //.invalidateHttpSession(true)	// added not tested
+	                    //.clearAuthentication(true)    // added not tested
 		                .logoutSuccessUrl("/home")
 		                .permitAll()
 	                .and()
 	                	.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
-
-
    
 
-    /*
+    
     //Spring Boot configured this already.
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }*/
+        	web.ignoring()
+                .antMatchers("/webjars/**",
+                			"/resources/**", 
+                			"/static/**", 
+                			"/css/**", 
+                			"/js/**", 
+                			"/images/**");
+    }
 
 }

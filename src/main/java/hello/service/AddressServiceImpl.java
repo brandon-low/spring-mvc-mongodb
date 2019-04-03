@@ -1,13 +1,18 @@
 package hello.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import hello.entity.Address;
+import hello.entity.Page;
 import hello.repository.AddressRepository;
 
 @Service
@@ -19,6 +24,8 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	AddressRepository addressRepository;
+	
+	
 
 	public void createAddress(Address address) {
 		addressRepository.save(address);
@@ -51,10 +58,10 @@ public class AddressServiceImpl implements AddressService {
         addressInDB.setAddress(address.getAddress());
         addressInDB.setPhone(address.getPhone());
         addressInDB.setEmail(address.getEmail());
-		
         
         addressRepository.save(addressInDB);
-
 	}
+	
+	
 
 }

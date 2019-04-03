@@ -33,9 +33,15 @@ public class UserServiceImpl implements UserService {
 	public static final String _ROLE_ADMIN 	= "ROLE_ADMIN";
 	public static final String _ROLE_USER 	= "ROLE_USER";
 	public static final String _ROLE_GUEST 	= "ROLE_GUEST";
+	public static final String _ROLE_ANONYMOUS 	= "ROLE_ANONYMOUS";
+	
 
 	public void create(User user) {
-		logger.info("create user=" + user);
+		logger.info("save user=" + user);
+		if (user != null) {
+			user.setCreateTimestamp(new Date(System.currentTimeMillis()));
+			user.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+		}
 		userRepository.save(user);
 	}
 
@@ -47,6 +53,9 @@ public class UserServiceImpl implements UserService {
         userInDB.setUsername(user.getUsername() );
         BeanUtils.copyProperties(user, userInDB, "id" ); 
         
+        if (userInDB != null) {
+        	userInDB.setUpdateTimestamp(new Date(System.currentTimeMillis()));
+		}
         userRepository.save(userInDB);
 	}
 	
@@ -132,7 +141,7 @@ public class UserServiceImpl implements UserService {
 			boolean accountNonExpired , boolean credentialsNonExpired, 
 			boolean accountNonLocked, int attempts, HashSet<UserRole> roles) {
 		boolean status = true;
-		logger.info("createUser=" + username);
+		logger.info("createUser=" + username + " password=" + password);
 		try {
 			User user = userRepository.findByUsername(username);
 			logger.info("createUser found user=" + user);
@@ -143,11 +152,13 @@ public class UserServiceImpl implements UserService {
 				u.setUsername(username);
 				u.setPassword(password);
 				u.setUserRole(roles);
-				user.setAccountNonExpired(accountNonExpired);
-				user.setAccountNonLocked(accountNonLocked);
-				user.setCredentialsNonExpired(credentialsNonExpired);
-				user.setAttempts(attempts);
-				this.create(u);	
+				u.setAccountNonExpired(accountNonExpired);
+				u.setAccountNonLocked(accountNonLocked);
+				u.setCredentialsNonExpired(credentialsNonExpired);
+				u.setAttempts(attempts);
+				
+				// create it
+				create(u);	
 			} else {
 				user.setEnabled(enabled);
 				user.setPassword(password);
@@ -157,28 +168,40 @@ public class UserServiceImpl implements UserService {
 				user.setCredentialsNonExpired(credentialsNonExpired);
 				user.setAttempts(attempts);
 
-				this.update(user);
+				// uodate it
+				update(user);
 			}
 			
 		} catch (Exception e) {
+			logger.error("Create User Exception", e);
 			status = false;
 		}
 		return status;
 	}
 	
+	
+	public boolean createUser(String username, String password, HashSet<UserRole> roles) {
+		return createUser(username, password, true, true, true, true, 0, roles);
+	}
+	
 	public boolean createDefaultUsers() {
 		boolean status = true;
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Create Default Users admin and user");
+		}
 		
 		try {
 			HashSet<UserRole> roles = new HashSet();
 			roles.add(new UserRole(_ROLE_ADMIN));
-			createUser("admin",getPasswordEncoder().encode("admin"), true, true, true, true, 0, roles);
+			createUser("admin",getPasswordEncoder().encode("admin"), roles);
 				
 			HashSet<UserRole> roles2 = new HashSet();
 			roles2.add(new UserRole(_ROLE_USER));
-			createUser("user", getPasswordEncoder().encode("password"), true, true, true, true, 0, roles2);
+			createUser("user", getPasswordEncoder().encode("user"), roles2);
 			
 		} catch (Exception e) {
+			logger.error("create DefaultUser Exception", e);
 			status = false;
 		}
 		

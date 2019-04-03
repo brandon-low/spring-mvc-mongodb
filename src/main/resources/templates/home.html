@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Boot Thymeleaf + Spring Security</title>
+    <title th:text="#{page.home.title}"></title>
 
     <div th:replace="fragments/header :: header-css"/>
 
@@ -13,13 +13,15 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>Spring Boot Web Thymeleaf + Spring Security + Mongodb + Ajax</h1>
-        <h2>1. Visit <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>
-        <h2>2. Visit <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>
-        <h2>3. Visit <a th:href="@{/about}">Normal page</a></h2>
-        <h2>4. Visit <a href="/address">Address page</a></h2>
-        <h2>5. Visit <a href="/createuser">CreateUser</a></h2>
-        <h2>6. Visit <a href="/greeting">Greeting</a></h2>
+        <h1 th:text="#{page.home}"></h1>
+        <h2>1 <a th:href="@{/admin}">Admin page (Spring Security protected, Need Admin Role)</a></h2>
+        <h2>2 <a th:href="@{/user}">User page (Spring Security protected, Need User Role)</a></h2>
+        <h2>3 <a th:href="@{/about}">Normal page</a></h2>
+        <h2>4 <a th:href="@{/address}">Address page</a></h2>
+        <h2>5 <a th:href="@{/setup}">Setup Page</a></h2>
+        <h2>6 <a th:href="@{/proto}">Proto Page</a></h2>
+        <h2>7 <a th:href="@{/greeting}">Greeting</a></h2>
+        <h2>8 <a th:href="@{/international}">International</a></h2>
     </div>
 
 </div>
