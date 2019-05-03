@@ -17,6 +17,10 @@ import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.authentication.UserCredentials;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 //import org.springframework.orm.hibernate4.HibernateTransactionManager;
 //import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -31,6 +35,9 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import com.mongodb.MongoClient;
+
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 
@@ -43,8 +50,15 @@ import org.springframework.web.servlet.ViewResolver;
 //@ComponentScan({ "hello.*" })
 //@EnableTransactionManagement
 //@Import({ SpringSecurityConfig.class })
-public class AppConfig {
-	private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
+public class ApplicationConfig {
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
+	
+		// mongodb config
+	@Bean
+	public MongoTemplate mongoTemplate() throws Exception {
+		MongoClient client = new MongoClient("localhost", 27017);
+		return new MongoTemplate(client, "TestDb");
+	}
 	
 		@Bean("messageSource")
 	   public MessageSource messageSource() {

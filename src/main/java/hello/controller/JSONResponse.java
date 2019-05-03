@@ -2,7 +2,6 @@ package hello.controller;
 
 import java.util.Map;
 
-import hello.entity.Address;
 
 public class JSONResponse {
 		private boolean validated = true;

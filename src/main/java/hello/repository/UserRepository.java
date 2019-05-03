@@ -10,7 +10,7 @@ import hello.entity.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, Long> {
-
+	
 	List<User> findAll();
 
     User findById(String id);
