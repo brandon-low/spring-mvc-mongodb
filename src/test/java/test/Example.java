@@ -5,7 +5,6 @@ package test;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -20,21 +19,10 @@ public class Example {
 	     /**
 	      * The Field Id Is primary key
 	     */
-			@Id
-	     private String Id;
-			
-		 // @Indexed(unique = true)
-		 /*private String key;
-			
-	     public String getKey() {
-			return key;
-		}
-
-		public void setKey(String key) {
-			this.key = key;
-		}
-		*/
-
+		
+		@Id
+	     private String id;
+		
 		private int version;
 	     private String Name;
 	     private long Status;
@@ -59,11 +47,11 @@ public class Example {
 	     *      * The Field Id Is primary key
 	     */
 		    public String getId() {
-	        return this.Id;
+	        return this.id;
 	    }
 	    
 	    public void setId(String Id) {
-	        this.Id = Id;
+	        this.id = Id;
 	    }
 
 	    public int getVersion() {

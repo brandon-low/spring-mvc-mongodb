@@ -20,34 +20,25 @@ public class ExampleServiceImpl implements ExampleService {
 		@Autowired
 		ExampleRepository repository;
 
-		public void create(Example example) {
+		public void insert(Example example) {
 			logger.info("save example="+ example);
 			if (example != null) {
 				example.setCreateTimestamp(new Date(System.currentTimeMillis()));
 				example.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			}
-			repository.save(example);
+			repository.insert(example);
 		}
 		public void update(Example example) {
 			logger.info("save example="+ example);
-			if (example == null) return;
-			
-			 Example exampleInDb = repository.findById(example.getId());
-			 if (exampleInDb == null) return;
-				  
 			 example.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			 repository.save(example);
 		}
 		
-		public void delete(String id) {
-			Example e = repository.findById(id);
-			if (e != null) {
-				repository.delete(e);
-			}
+		public void deleteById(String id) {
+				repository.deleteById(id);			
 		}
 		
 		public List<Example> findAll() {
-			
 			return repository.findAll();
 		}
 		public void deleteAll() {

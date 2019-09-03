@@ -18,5 +18,11 @@ public class SpringMongoDbConfig {
     public ExampleService exampleService() {
         return new ExampleServiceImpl();
     }
+	
+	@Bean
+    public StatementService statementService() {
+        return new StatementServiceImpl();
+    }
  
+	
 }

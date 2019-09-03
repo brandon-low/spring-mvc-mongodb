@@ -1,5 +1,6 @@
 package test;
 
+
 import static org.junit.Assert.*;
 
 import java.util.Date;
@@ -20,79 +21,71 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//import junit.framework.AssertionFailedError;
 
 
 @RunWith(SpringRunner.class)
 //@DataMongoTest
 @ContextConfiguration(classes = {SpringMongoDbConfig.class})
-public class ExampleServiceTest {
-	 private static final Logger logger = LoggerFactory.getLogger(ExampleServiceTest.class);
-
+public class StatementServiceTest {
+	 private static final Logger logger = LoggerFactory.getLogger(StatementServiceTest.class);
 	
 	@Autowired
-    private ExampleService service;
+    private StatementService service;
 	//private static ExampleService service = new ExampleServiceImpl();
 	
 	//@MockBean  // if we don't have repository 
 	@Autowired
-	private ExampleRepository repository;
+	private StatementRepository repository;
 	
-	private void createTestData() {
-		try {
-			Example entity = populate(new Example());
-			service.insert(entity);
-			
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-	}
-	
-	static final int NUMBER_OF_TEST_DATA = 6;
+	static final int NUMBER_OF_TEST_DATA = 3;
 
 	 @Before
 	 public void init() {
 		 repository.deleteAll();
-		for (int i = 0; i <NUMBER_OF_TEST_DATA; i++) {
-			createTestData();
-		}
-	 }
+	}
 
-	private Example populate(Example e) {
+	private Statement populate(Statement e) {
 		if (e == null) {
-			e = new Example();
+			e = new Statement();
 		}
-		//e.setKey(new Date(System.currentTimeMillis()).toString());
-		e.setName("Big Boy " + System.currentTimeMillis());
-		e.setStatus(System.currentTimeMillis());
 		e.setCreateUser("Brandon");
 		e.setCreateTimestamp(new Date(System.currentTimeMillis()));
-		e.setCreateUser("Brandon");
+		e.setUpdateUser("Brandon");
 		e.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 			
 		return e;
 	}
 	
-	@Test
-    public void countAllTestData() {
-
-        List<Example> entities = repository.findAll();
-        assertEquals(NUMBER_OF_TEST_DATA, entities.size());
-    }
-	
 	
 	@Test
-	public void testCreate() {
-		Example entity = populate(new Example());
-		
+	public void testCreateTestCases() {
+		Statement e1 = populate(null);
 		try {
-				service.insert(entity);
+			
+			e1.setTitle("Document With collections of facts");
+			e1.setText("Am i a liar?");
+			
+		
+			service.create(e1);	
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			assertFalse(e.getMessage(), true);
+		}
+		
+		logger.debug("Root Ducument created");
+		try {
+			Statement e = service.getStatementById(e1.getId());
+			if (e == null) {
+				throw new Exception("Error id" + e1.getId() +"not found");
+			}
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			assertFalse(e.getMessage(), true);
 		}
-		assertThat(entity.getId()).isNotNull();
+		
+		
+		assertNull(null);
 	}
 
 }

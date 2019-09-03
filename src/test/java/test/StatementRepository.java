@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ExampleRepository extends MongoRepository<Example, String> {
+public interface StatementRepository extends MongoRepository<Statement, String> {
+
+	List<Statement> findAll();
+
+    //Statement findBy_id(String id);
 
     @Query("{ name : ?0 }")
-	Example findByName(String name);
+	Statement findByName(String name);
 
 }
