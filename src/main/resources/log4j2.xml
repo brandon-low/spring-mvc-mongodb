@@ -11,6 +11,8 @@
             <AppenderRef ref="console" />
         </Root>
           <Logger name="test" level="trace"></Logger>
-          <Logger name="example.log" level="trace"></Logger>
+          <Logger name="example.bean" level="trace"></Logger>
+           <Logger name="example.json" level="trace"></Logger>
+           <Logger name="example.log" level="trace"></Logger>
     </Loggers>
 </Configuration>

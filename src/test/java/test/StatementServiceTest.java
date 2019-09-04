@@ -19,6 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import example.bean.Statement;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 

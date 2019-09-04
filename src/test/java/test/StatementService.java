@@ -2,6 +2,8 @@ package test;
 
 import java.util.List;
 
+import example.bean.Statement;
+
 
 public interface StatementService {
 

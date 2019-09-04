@@ -1,5 +1,6 @@
-package test;
+package example.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "statements")
-public class Statement {
+public class Statement implements Serializable {
+	
+	private static final long serialVersionUID =    129348938L; 
+	
+	private static int PERCENTAGE_UNANSWER 	= -1;
+	private static int PERCENTAGE_UNKNOWN 	= 50;
+	private static int PERCENTAGE_TRUE 		= 100;
+	private static int PERCENTAGE_FALSE 	= 0;
 	
 	public static enum ValueMethod {
 		TRUEFALSE, PERCENTAGE
@@ -24,39 +32,61 @@ public class Statement {
 	private String 			text;
 	private ValueMethod 	valueMethod;
 	private ValueType		valueType;
-	private int 			percentage;
+	private int				percentage;
 	private List<String>	reasons;
 	private List<Statement> statements;
 	private List<Statement> brokenDownStatements;
+	private boolean			isHidden;
 	
-	private String createUser;
-	private String updateUser;
-	
-	private Date createTimestamp;
-	private Date updateTimestamp;
+	private String 			createUser;
+	private String 			updateUser;
+	private Date 			createTimestamp;
+	private Date 			updateTimestamp;
 	
 	public Statement() {
 		super();
-		this.valueMethod = ValueMethod.TRUEFALSE;
+		initData();
 		// TODO Auto-generated constructor stub
+	}
+	
+	private void initData() {
+		this.valueMethod = ValueMethod.TRUEFALSE;
+		this.setValueMethod(ValueMethod.TRUEFALSE);
+		this.setValueType(ValueType.UNANSWER);
+		this.setPercentage( PERCENTAGE_UNANSWER );
+		this.setHidden(true);	
+	}
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
+	public void populateTestData() {
+		this.setCreateUser("Brandon Low");
+		this.setCreateTimestamp(new Date(System.currentTimeMillis()));
+		this.setUpdateUser("Brandon Low");
+		this.setUpdateTimestamp(new Date(System.currentTimeMillis()));
 	}
 	
 	public void addReasons(String str) {
 		if (this.getReasons() == null) {
-			this.setReasons(new ArrayList());
+			this.setReasons(new ArrayList<String>());
 		}
 		this.getReasons().add(str);
 	}
 	
 	public void addStatements(Statement e) {
 		if (this.getStatements() == null) {
-			this.setStatements(new ArrayList());
+			this.setStatements(new ArrayList<Statement>());
 		}
 		this.getStatements().add(e);
 	}
 	public void addBrokenDownStatements(Statement e) {
 		if (this.getBrokenDownStatements() == null) {
-			this.setBrokenDownStatements(new ArrayList());
+			this.setBrokenDownStatements(new ArrayList<Statement>());
 		}
 		this.getBrokenDownStatements().add(e);
 	}
@@ -80,15 +110,31 @@ public class Statement {
 	}
 
 	public int getValuedPercentage() {
+		// default to true false
+		if (this.getValueMethod() == null ){
+			this.setValueMethod(ValueMethod.TRUEFALSE);
+			this.setValueType(ValueType.UNANSWER);
+			this.setPercentage( PERCENTAGE_UNANSWER );
+		}
+		if (this.getValueType() == null) {
+			this.setValueType(ValueType.UNANSWER);
+			this.setPercentage( PERCENTAGE_UNANSWER );
+		}
 		if (this.getValueMethod() == ValueMethod.TRUEFALSE) {
 			switch (this.getValueType()) {
-				case VALUE_TRUE: return 100;
-				case VALUE_FALSE: return 0;
-				default : return 50;
+				case VALUE_TRUE: 
+					return PERCENTAGE_TRUE;
+				case VALUE_FALSE: 
+					return PERCENTAGE_FALSE;
+				case UNANSWER: 
+					return PERCENTAGE_UNANSWER;
+				default : 
+					return PERCENTAGE_UNKNOWN;
 			}
 		}
 		return this.getPercentage();
 	}
+	
 	public int getPercentage() {
 		return percentage;
 	}

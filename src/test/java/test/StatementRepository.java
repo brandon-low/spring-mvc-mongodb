@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import example.bean.Statement;
+
 
 @Repository
 public interface StatementRepository extends MongoRepository<Statement, String> {

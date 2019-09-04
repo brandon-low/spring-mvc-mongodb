@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import example.bean.Statement;
+
 @Service
 public class StatementServiceImpl implements StatementService {
 	
