@@ -30,13 +30,13 @@ public class Statement implements Serializable {
 	private String 			id;
 	private String 			title;
 	private String 			text;
+	private boolean			isHidden;
 	private ValueMethod 	valueMethod;
 	private ValueType		valueType;
 	private int				percentage;
-	private List<String>	reasons;
 	private List<Statement> statements;
+	private List<String>	reasons;
 	private List<Statement> brokenDownStatements;
-	private boolean			isHidden;
 	
 	private String 			createUser;
 	private String 			updateUser;
@@ -45,7 +45,7 @@ public class Statement implements Serializable {
 	
 	public Statement() {
 		super();
-		initData();
+		//initData();
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -24,25 +24,18 @@ public class TestStatementJson {
 		s.populateTestData();
 		return s;
 	}
-	private Statement widthRecursion(int size, Statement previous) {
-		if (size != 0) {
-			Statement current = giveMeOne();
-			current.setText("Width : " + size + "text");
-			current.setTitle("Width : " + size + "Title");
-			previous.addStatements(current);
-			depthRecursion(STATEMENT_DEPTH, current);
-			return widthRecursion(size -1, previous);
-		}else {
-			return previous;
-		}
-	}
-	private  Statement depthRecursion(int depth, Statement previous) {
+	
+	private  Statement recursion(int depth, int size, Statement previous) {
 		if (depth != 0) {
-				Statement current = giveMeOne();
-				current.setText("Depth :" + depth + " Text");
-				current.setTitle("Depth :" + depth +" Title");
-				previous.addStatements(current);
-				return depthRecursion (depth-1, current);	
+				for (int i = 0; i < size; i++) {
+					Statement current = giveMeOne();
+					current.setText("D(" + depth + ") W("+ i+ ")" + previous.getText());
+					previous.addStatements(current);
+					recursion(depth -1, size, current);
+				}
+				
+				
+				return previous;
 			
 		} else {
 			return previous;
@@ -51,11 +44,11 @@ public class TestStatementJson {
 	
 	private Statement populate() {
 		Statement s = giveMeOne();
-		s.setText("Root Documents");
-		s.setTitle("Root Document");
+		s.setText("Root");
+		s.setTitle("Root");
 		
-		widthRecursion(STATEMENT_SIZE, s);
-		//recursion (STATEMENT_DEPTH, STATEMENT_SIZE, s);
+		
+		recursion(2, 2, s);
 		
 		return s;
 	}
