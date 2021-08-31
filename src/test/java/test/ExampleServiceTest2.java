@@ -20,7 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.stereotype.Controller;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mongodb.MongoClient;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 
 import hello.config.SpringSecurityConfig;
 
@@ -53,7 +54,11 @@ public class ExampleServiceTest2 {
 	  
 	 	@Bean
 	 	public MongoTemplate mongoTemplate() throws Exception {
+	 		String url ="mongodb://localhost:27017";
+	 		MongoClient client = MongoClients.create(url);
+	 		/**
 	 		MongoClient client = new MongoClient("localhost", 27017);
+	 		*/
 	 		return new MongoTemplate(client, "JUnitTestDb");
 	 	}
 	 	

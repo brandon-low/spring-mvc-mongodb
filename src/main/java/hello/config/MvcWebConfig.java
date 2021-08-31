@@ -31,7 +31,7 @@ import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
 //works with just @Configuration 
 @Configuration			// works just with this uncommented
-@EnableWebMvc			// activated to test , works as well
+//@EnableWebMvc			// activated to test , works as well
 @ComponentScan("hello")	// activated this as well
 public class MvcWebConfig implements WebMvcConfigurer {
 
