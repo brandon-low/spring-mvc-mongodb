@@ -3,14 +3,18 @@
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout
-                pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+                pattern="[%-5level] %d{HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
         </Console>
     </Appenders>
     <Loggers>
         <Root level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Root>
-          <Logger name="test" level="trace"></Logger>
+          <Logger name="hello.config" level="trace"></Logger>
+           <Logger name="hello.controller" level="trace"></Logger>
+            <Logger name="hello.service" level="trace"></Logger>
+             <Logger name="hello.repository" level="trace"></Logger>
+             
           <Logger name="example.bean" level="trace"></Logger>
            <Logger name="example.json" level="trace"></Logger>
            <Logger name="example.log" level="trace"></Logger>

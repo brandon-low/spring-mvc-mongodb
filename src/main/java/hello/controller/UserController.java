@@ -72,8 +72,8 @@ public class UserController {
 	    @GetMapping("/testquery")
 	    public String testquery(HttpServletRequest request, HttpServletResponse response,
 	    							ModelMap model) {
-	    	log.debug("testquery");
-	    	
+	    	if (log.isDebugEnabled()) 
+	    			log.debug("In Testquery");
 	    	
 	    	// query string	
 	    	return "redirect:/" + _page + "?message=create user successful!";
@@ -86,7 +86,8 @@ public class UserController {
 	    @GetMapping("/testredirect")
 	    public String redirectModelAndView(HttpServletRequest request, HttpServletResponse response,
 	    						RedirectAttributes redirectAttributes) {
-	    	log.debug("redirect page test");
+	    	if (log.isDebugEnabled()) 
+	    		log.debug("redirect page test do redirect:/" +_page);
 	         
 	    	redirectAttributes.addAttribute("message", "redirect success");
 	    	//redirectAttributes.addFlashAttribute("fa", faValue);
@@ -102,7 +103,8 @@ public class UserController {
 	    @GetMapping("/testforward")
 	    public ModelAndView forwardModelAndView(HttpServletRequest request, HttpServletResponse response,
 	    							ModelMap model) {
-	    	log.debug("forward page test");
+	    	if (log.isDebugEnabled()) 
+	    		log.debug("forward page test run forward");
 	    	  
 	    	model.addAttribute("message", "forward success Prefix with message");
 	        return new ModelAndView("forward:/" + _page, model); 	    }

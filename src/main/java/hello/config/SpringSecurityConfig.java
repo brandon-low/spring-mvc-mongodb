@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import hello.service.UserService;
+//import hello.service.UserService;
 
 @Configuration
 
@@ -27,8 +27,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
 	
-	@Autowired
-	private UserService userService;
+	//@Autowired
+	//private UserService userService;
 	
 	@Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -37,7 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	CustomSuccessHandler customSuccessHandler;
 	
 	@Autowired
-    private CustomAuthenticationProvider authProvider;
+    private CustomAuthenticationProvider customAuthenticationProvider;
 	 
 
 	@Autowired
@@ -47,7 +47,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		//auth.userDetailsService(userDetailsService).passwordEncoder(userService.getPasswordEncoder());
 		
 		// custom implementation
-		auth.authenticationProvider(authProvider);
+		auth.authenticationProvider(customAuthenticationProvider);
 		
 		//  auth.inMemoryAuthentication()
         //  .withUser("user").password("user").roles("USER")

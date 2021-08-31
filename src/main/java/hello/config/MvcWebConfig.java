@@ -29,10 +29,10 @@ import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 
 
-//works with just @Configuration
-@Configuration
-//@EnableWebMvc
-//@ComponentScan("hello")
+//works with just @Configuration 
+@Configuration			// works just with this uncommented
+@EnableWebMvc			// activated to test , works as well
+@ComponentScan("hello")	// activated this as well
 public class MvcWebConfig implements WebMvcConfigurer {
 
 	private static final Logger logger = LoggerFactory.getLogger(MvcWebConfig.class);
