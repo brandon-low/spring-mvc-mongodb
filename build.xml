@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Scripts To Do Stuff" default="backup" basedir=".">
+      
+    <property environment="env"/>
+    <property name="lib.dir" 			value="${basedir}/target/dependency" />    
+    
+	<echo>+----------------${test-echo}----------------------------+</echo>
+	
+	
+	<target name="backup" description="Zip up the directory">
+			<ant inheritAll="false" antfile="ant-backup.xml" target="backup"/>		
+	</target>
+	
+</project>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Backup" default="backup" basedir=".">
+	<tstamp>
+	  <format property="TODAY_DATE" pattern="yyyy-MM-dd_HH_mm" locale="en,AU"/>
+	</tstamp>
+	<target name="backup">
+		<echo>+--------------------------------------------+</echo>
+        <echo>|                                            |</echo>
+        <echo>|    R U N N I N G   B A C K    U P          |</echo>
+        <echo>|        ZIP It ALL UP                       |</echo>
+        <echo>+--------------------------------------------+</echo> 
+		<zip destfile="SpringMvcMongo${TODAY_DATE}.zip">
+			<zipfileset dir="src" prefix="src" 
+				includes="**/*.xml,**/*.properties,**/*.java,**/*.css,**/*.html,**/*.htm" />
+			<fileset dir="." includes="*.xml,*.txt"/>
+		</zip>
+	</target>	
+</project>
+
